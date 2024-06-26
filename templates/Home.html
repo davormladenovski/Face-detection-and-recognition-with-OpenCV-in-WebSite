@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Face Detection by Davor</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" href="../static/Logo white.png" type="image/icon type">
+</head>
+<body>
+<div class="loading">
+    <div class="loader"></div>
+</div>
+<div class="content">
+    <div id="header">
+        <header>
+            <ul>
+                <li onclick="scrollToSection('main_content')">HOME</li>
+                <li onclick="scrollToSection('about_creator')">ABOUT A CREATOR</li>
+                <li class="logo" onclick="navigateToPage('home')" >
+                    <img id="main_logo" src="/static/Logo white.png" alt="logo"/>
+                    <img id="hover-image" src="/static//full_face.png" alt="hover image"/>
+                </li>
+                <li onclick="scrollToSection('about_the_project')">ABOUT THE PROJECT</li>
+                <li onclick="scrollToSection('contact')">CONTACT</li>
+            </ul>
+
+        </header>
+    </div>
+    <div class="main" id="main_content">
+
+        <div class="main_section2">
+            <h1>FACE<br/>DETECTION</h1>
+            <p id="main_text">Our website utilizes cutting-edge technology to perform accurate face detection from both photos and videos.</p>
+        </div>
+
+        <div class="main_section">
+            <div id="form">
+
+                <img width="70px" height="auto" src="../static/upload_icon.png">
+                <form id="uploadForm" action="/home" method="post" enctype="multipart/form-data">
+                    <label for="file_button" id="customFileButton">Upload file</label>
+                    <input type="file" name="file" id="file_button" autocomplete="off">
+                    <button type="submit" id="submite_button" style="display: none;">Upload</button>
+                </form>
+                <h2>photo or video </h2>
+            
+                
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main" id="about_creator">
+
+        <div class="main_section2">
+            
+            <img id="my_emoji" src="../static/my_emoji.png">
+
+
+        </div>
+
+        <div class="main_section" id="about">
+            <h2>About a Creator</h2>
+            <h1>Davor Mladenovski</h1>
+            <p>
+                I'm Davor, a dedicated student currently in my second year of studying computer science. My passion for mathematics and programming has been a driving force in my academic journey, propelling me to explore new concepts and sharpen my skills.
+
+                <br/><br/>As I continue further, I'm excited about the challenges and opportunities that lie ahead. Each day brings fresh knowledge and insights, fueling my curiosity and desire to learn more. Whether it's tackling complex algorithms or diving into advanced programming languages, I thrive on the continuous growth and discovery that this field offers.
+
+            </p>
+        </div>
+
+    </div>
+
+    <div class="main" id="about_the_project">
+
+        <div class="main_section2" id="about_project">
+            <h2>About the Project</h2>
+            <h3>FACE DETECTION by Davor</h3>
+            <p>Davor's face detection and recognition project utilizes Python and OpenCV to identify and recognize faces in both images and videos. By incorporating the face_recognition library, the project encodes known faces and calculates distances to determine recognition confidence levels.<br/><br/> OpenCV processes the media, drawing rectangles around detected faces and adding labels with recognized names and confidence scores. The project also includes a Flask web application that allows users to upload images and videos for face detection.<br/><br/> Additionally, it features an email form using Gmail SMTP for notifications, making it a comprehensive and robust solution for face detection and recognition tasks in both static and dynamic media.</p>
+        </div>
+
+        <div class="main_section" >
+            <img width="400px" height="auto" src="../static/faceid_main.png">
+        </div>
+
+
+
+    </div>
+
+    <div class="main" id="contact">
+
+        <div class="main_section2">
+            <div id="main_form">
+                <div id="note">
+                    <p>Note: Our support is currently available in <span style="font-weight: bold;">English only</span>.</p>
+                </div>
+                <p>Fill out this form and we will get back to you shortly.</p>
+                <form id="contactForm" method="post" action="/send_email">
+                    <input type="email" id="email" name="email" placeholder="Your Email*" required>
+                    <input type="text" id="subject" name="subject" placeholder="Subject*" required>
+                    <textarea id="message" name="message" placeholder="Your Message*" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+
+            </div>
+            
+
+        </div>
+
+        <div class="main_section"  id="form_contact">
+            <h2>Get in touch</h2>
+            <div id="touch">
+                <div id="icons">
+                        <img src="../static/email.png">
+                        <img src="../static/telephone.png">
+                        <img src="../static/location.png">
+
+                </div>
+                <div id="text_icons">
+                    <p>dmladenovski79@gmail.com</p>
+                    <p>+389 77 123 456</p>
+                    <p>Skopje, Macedonia</p>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <img id="backToHomeBtn" onclick="scrollToSection('main_content')" class="back-to-home-btn" src="../static/top.png">
+
+    <footer>
+        <p>&copy; 2024 Face Detection by Davor Mladenovski. All Rights Reserved.</p>
+    </footer>
+
+    <div id="errorModal" class="modal" style="display: none;">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Error</h5>
+                <button type="button" class="close" onclick="closeModal()">X</button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <button type="button" class="OK" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div id="flashModal" class="modal">
+                    <div class="modal-background"></div>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">E-mail alert</h5>
+                            <button type="button" class="close" onclick="closeFlashModal()">X</button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="flashMessage">{{ message }}</p>
+                        </div>
+                        <button type="button" class="OK" onclick="closeFlashModal()">OK</button>
+                    </div> 
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+</div>
+
+<script>
+
+    function navigateToPage(url) {
+        window.location.href = url;
+    }
+
+    function scrollToSection(sectionId) {
+        var section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+         }
+    }
+
+    window.onload = function () {
+        setTimeout(function () {
+            document.querySelector('.loading').style.opacity = '0';
+            document.querySelector('.content').classList.add('revealed');
+            setTimeout(function () {
+                document.querySelector('.loading').style.display = 'none';
+            }, 1000);
+        }, 2500);
+
+        document.getElementById('hover-image').style.display = 'none'
+    }
+
+    document.getElementsByClassName('logo')[0].addEventListener('mouseover', function () {
+        document.getElementById('hover-image').style.display = 'block'
+        document.getElementById('main_logo').style.display = 'none'
+    })
+    document.getElementsByClassName('logo')[0].addEventListener('mouseout', function () {
+        document.getElementById('hover-image').style.display = 'none'
+        document.getElementById('main_logo').style.display = 'block'
+
+    })
+
+    document.getElementById('file_button').addEventListener('change', function () {
+            document.getElementById('submite_button').click(); 
+    });
+
+    function showModal() {
+        document.getElementById('errorModal').style.display = 'flex';
+    }
+
+    function closeModal(){
+        document.getElementById('errorModal').style.display='none';
+    }
+
+    function showFlashModal(){
+        document.getElementById('flashModal').style.display = 'flex';
+    }
+
+    function closeFlashModal() {
+        document.getElementById('flashModal').style.display = 'none';
+    }
+
+    
+    
+</script>
+
+{% if error_message %}
+    <script>
+        $(document).ready(function() {
+            var errorMessage = '{{ error_message|tojson|safe }}';
+            $('#errorMessage').text(errorMessage);
+            showModal();
+        });
+    </script>
+{% endif %}
+
+    
+</body>
+
+
+</html>

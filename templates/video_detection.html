@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Face Detection by Davor</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link rel="icon" href="../static/Logo white.png" type="image/icon type">
+
+</head>
+<body>
+<div class="loading">
+    <div class="loader"></div>
+</div>
+<div class="content">
+    <div id="header">
+        <header>
+            <ul>
+                <li onclick="navigateToPage('home')">HOME</li>
+                <li onclick="navigateToPage('home')">ABOUT A CREATOR</li>
+                <li class="logo" onclick="navigateToPage('home')" >
+                    <img id="main_logo" src="/static/Logo white.png" alt="logo"/>
+                    <img id="hover-image" src="/static//full_face.png" alt="hover image"/>
+                </li>
+                <li onclick="scrollToSection('home')">ABOUT THE PROJECT</li>
+                <li onclick="navigateToPage('home')">CONTACT</li>
+            </ul>
+
+        </header>
+    </div>
+
+    <div id="main" class="detection_main">
+
+       <div class="main_section2">
+            {% if video_filename %}
+            <div id="video-container">
+                <video id="video" controls autoplay width="500px" style="margin-left: 100px;">
+                    <source src="{{ url_for('static', filename='Videos/' + video_filename) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="main_section" id="detected_image_descp_div">
+            {% if video_filename %}
+            <h2>Video Properties</h2>
+            <div id="detected_image_descp">
+                <h3><span class="title_descp">File name: </span> {{ video_filename }}</h3>
+                <h3><span class="title_descp">File Type: </span> {{ file_type }}</h3>
+                <h3><span class="title_descp">File Size: </span> {{ file_size }} bytes</h3>
+                <h3><span class="title_descp">Width: </span> {{ width }} px</h3>
+                <h3><span class="title_descp">Height: </span> {{ height }} px</h3>
+                <h3><span class="title_descp">Frame count: </span> {{ frame_count }} </h3>
+                <h3><span class="title_descp">FPS: </span> {{ fps }}</h3>
+                <h3><span class="title_descp">Duration: </span> {{ duration }} s</h3>
+            </div>
+            <a href="{{ url_for('static', filename='/Videos/' + video_filename) }}" download="{{ video_filename }}" class="download-button">
+                Download Video
+            </a>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+<footer>
+    <p>&copy; 2024 Face Detection by Davor Mladenovski. All Rights Reserved.</p>
+</footer>
+
+<script>
+
+    function navigateToPage(url) {
+            window.location.href = url;
+    }
+    function scrollToSection(sectionId) {
+        var section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+         }
+    }
+
+    window.onload = function () {
+        setTimeout(function () {
+            document.querySelector('.loading').style.opacity = '0';
+            document.querySelector('.content').classList.add('revealed');
+            setTimeout(function () {
+                document.querySelector('.loading').style.display = 'none';
+            }, 1000);
+        }, 2500);
+
+        document.getElementById('hover-image').style.display = 'none'
+    }
+
+    document.getElementsByClassName('logo')[0].addEventListener('mouseover', function () {
+        document.getElementById('hover-image').style.display = 'block'
+        document.getElementById('main_logo').style.display = 'none'
+    })
+    document.getElementsByClassName('logo')[0].addEventListener('mouseout', function () {
+        document.getElementById('hover-image').style.display = 'none'
+        document.getElementById('main_logo').style.display = 'block'
+
+    })
+
+    document.getElementById('file_button').addEventListener('change', function () {
+            document.getElementById('submite_button').click(); 
+    });
+
+    function showModal() {
+        document.getElementById('errorModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('errorModal').style.display = 'none';
+    }
+
+    
+    
+</script>
+
+
+</body>
+</html>
